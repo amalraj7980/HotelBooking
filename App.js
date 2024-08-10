@@ -36,7 +36,7 @@ function HomeTabs() {
       <Tab.Screen 
        options={{
         headerRight: () => <LogoutButton />,
-        headerTitle: 'Home', // Set your header title if needed
+        headerTitle: 'Home', 
       }}
          name="Home" component={HomeScreen} />
       <Tab.Screen options={{ headerShown: false }}  name="Settings" component={SettingsScreen} />
@@ -65,12 +65,12 @@ export default function App() {
     const checkAuth = async () => {
       try {
         const token = await getUserInformation('access_token');
-        setIsAuthenticated(!!token); // Set true if token exists, otherwise false
+        setIsAuthenticated(!!token); 
       } catch (error) {
         console.error('Error checking authentication:', error);
         setIsAuthenticated(false);
       } finally {
-        setLoading(false); // Set loading to false after check
+        setLoading(false); 
       }
     };
 

@@ -147,7 +147,7 @@ const RegisterScreen = ({ navigation }) => {
                     loading={loading}
                     onClick={handleRegister}
                     style={styles.button}
-                    buttonDisable={isButtonDisabled} // Pass the disable state
+                    buttonDisable={isButtonDisabled} 
                 />
                 <CustomButton
                     text="Go to Login"

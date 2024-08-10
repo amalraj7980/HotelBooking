@@ -68,7 +68,6 @@ const LoginScreen = ({ navigation }) => {
         }
     };
 
-    // Determine if the button should be disabled
     const isButtonDisabled = !validateEmail(email) || password.length < 6 || loading;
 
     return (
