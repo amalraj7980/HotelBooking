@@ -8,12 +8,8 @@ import LoginScreen from './src/screens/AuthScreens/LoginScreen';
 import RegisterScreen from './src/screens/AuthScreens/RegisterScreen';
 import { getUserInformation } from './src/utils/LocalStorage';
 import LogoutButton from './src/components/LogoutButton';
+import MyBookings from './src/screens/DashboardScreens/MyBookings';
 
-const SettingsScreen = () => (
-  <View>
-    <Text>Settings Screen</Text>
-  </View>
-);
 const AuthStack = createNativeStackNavigator();
 const AppStack = createNativeStackNavigator();
 
@@ -39,7 +35,7 @@ function HomeTabs() {
         headerTitle: 'Home', 
       }}
          name="Home" component={HomeScreen} />
-      <Tab.Screen options={{ headerShown: false }}  name="Settings" component={SettingsScreen} />
+      <Tab.Screen options={{ headerShown: false }}  name="My Booking" component={MyBookings} />
 
     </Tab.Navigator>
   );

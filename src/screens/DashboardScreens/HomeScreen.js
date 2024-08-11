@@ -14,7 +14,6 @@ const HomeScreen = () => {
     const [houses, setHouses] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedHouse, setSelectedHouse] = useState(null);
-    const [phoneNumber, setPhoneNumber] = useState('');
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [dateString, setDateString] = useState(date.toDateString());
@@ -61,7 +60,7 @@ const HomeScreen = () => {
     };
     const handleHotelBooking = async () => {
         const formattedDate = formatDate(date);
-        if (phoneNumber && date) {
+        if (date) {
             try {
                 bookingParams = {
                     productId: selectedHouse._id,
@@ -73,7 +72,6 @@ const HomeScreen = () => {
                     const data = response.data;
                     console.log("data-->2", data)
                     setModalVisible(false);
-                    setPhoneNumber("")
                     setDate(new Date())
                     const updatedHouses = houses.map((house) =>
                         house._id === selectedHouse._id ? { ...house, isBooked: true, dateBooked: date } : house
@@ -83,6 +81,9 @@ const HomeScreen = () => {
                 }
                 else {
                     console.log(" err res--->", response)
+                    if(response.status ==400){
+                        Alert.alert(response.data.message);
+                    }
                 }
             } catch (err) {
                 console.log(err)
@@ -123,13 +124,6 @@ const HomeScreen = () => {
                 contentStyle={styles.modalContent}
             >
                 <Text style={styles.modalTitle}>Booking Details</Text>
-                <CustomTextInput
-                    value={phoneNumber}
-                    onChangeText={setPhoneNumber}
-                    placeholder="Enter your phone number"
-                    keyboardType="phone-pad"
-                    label="Phone Number"
-                />
                 <CustomTextInput
                     value={dateString}
                     onChangeText={() => { }}
@@ -227,6 +221,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     buttonContainer: {
+        marginTop:20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
