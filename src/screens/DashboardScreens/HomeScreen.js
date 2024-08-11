@@ -22,7 +22,7 @@ const HomeScreen = () => {
     const handleDateChange = (date) => {
         setShowDatePicker(false)
         setDate(date);
-        console.log("date-->",date)
+        console.log("date-->", date)
         setDateString(date.toDateString());
     };
 
@@ -48,43 +48,44 @@ const HomeScreen = () => {
             console.error('Error fetching houses:', err);
         }
     };
+    const formatDate = (date) => {
+        const d = new Date(date);
+        let month = '' + (d.getMonth() + 1);
+        let day = '' + d.getDate();
+        const year = d.getFullYear();
 
-    const handleHotelBooking = async() => {
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [month, day, year].join('/');
+    };
+    const handleHotelBooking = async () => {
+        const formattedDate = formatDate(date);
         if (phoneNumber && date) {
-            
-            const updatedHouses = houses.map((house) =>
-                house._id === selectedHouse._id ? { ...house, isBooked: true, dateBooked: date } : house
-            );
-            setHouses(updatedHouses);
             try {
                 bookingParams = {
-                    productId: "66b7b5bb1ab51ebead00c141",
-                    userId:"66b7c3181ab51ebead00c176",
-                    date:"13/10/2024"
+                    productId: selectedHouse._id,
+                    userId: "66b7c3181ab51ebead00c176",
+                    date: formattedDate
                 };
-              
-              const response = await BookHotelApiCall(bookingParams);
-              if (isResponseIsValid(response)) {
-               const data = response.data;
-               console.log("data-->2",data)
-               setModalVisible(false);
-               setPhoneNumber("")
-               setDate(new Date())
-                Alert.alert('Booking successful');
-              }
-              else{
-                setModalVisible(false);
-                setPhoneNumber("")
-                setDate(new Date())
-
-                Alert.alert('Booking successful');
-                console.log("res--->",response)
-              }
+                const response = await BookHotelApiCall(bookingParams);
+                if (isResponseIsValid(response)) {
+                    const data = response.data;
+                    console.log("data-->2", data)
+                    setModalVisible(false);
+                    setPhoneNumber("")
+                    setDate(new Date())
+                    const updatedHouses = houses.map((house) =>
+                        house._id === selectedHouse._id ? { ...house, isBooked: true, dateBooked: date } : house
+                    );
+                    setHouses(updatedHouses);
+                    Alert.alert('Booking successful');
+                }
+                else {
+                    console.log(" err res--->", response)
+                }
             } catch (err) {
-                setModalVisible(false);
-                setPhoneNumber("")
-                setDate(new Date())
-                console.log("err---->",err)
+                console.log(err)
             }
         } else {
             Alert.alert('Please fill all the fields');
@@ -134,13 +135,13 @@ const HomeScreen = () => {
                     onChangeText={() => { }}
                     placeholder="Select a date"
                     label="Date"
-                    editable={false} 
-                    onPressIn={() => setShowDatePicker(true)} 
+                    editable={false}
+                    onPressIn={() => setShowDatePicker(true)}
                 />
                 <CustomDatePicker
                     value={date}
                     onDateChange={handleDateChange}
-                    show={showDatePicker} 
+                    show={showDatePicker}
                 />
 
                 <View style={styles.buttonContainer}>
